@@ -1,73 +1,25 @@
-## Obsidian Sample Plugin
+## Introduction
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+This plugin can access content in Notion through the Notion API, You need to provide Notion intergration secrets in the settings and enter the corresponding block_id to get the content of the block.
 
-This project uses Typescript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in Typescript Definition format, which contains TSDoc comments describing what it does.
+## Usage
 
-**Note:** The Obsidian API is still in early alpha and is subject to change at any time!
+First you need to go to the plugin's settings page and enter secrets here, if you don't know what secrets are you can see [this page](https://developers.notion.com/docs).
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Changes the default font color to red using `styles.css`.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open Sample Modal" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
+<img src="https://cdn.jsdelivr.net/gh/LastKnightCoder/ImgHosting3@master/202204172243532022-04-17-22-43-54.png" style="zoom:50%"/>
 
-### First time developing plugins?
+Back to your editor page, press the shortcut <Ctrl>Ctrl + P</kbd> to open the command panel, then type **Notion API**, then you can see all the relevant commands.
 
-Quick starting guide for new plugin devs:
+<img src="https://cdn.jsdelivr.net/gh/LastKnightCoder/ImgHosting3@master/202204172248542022-04-17-22-48-55.png" style="zoom:50%"/>
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
+And you will see a modal prompting you to enter block_id. With this block_id you can get the content on the Notion and it will be inserted into the page.
 
-### Releasing new releases
+<img src="https://cdn.jsdelivr.net/gh/LastKnightCoder/ImgHosting3@master/202204172249412022-04-17-22-49-42.png" style="zoom:50%"/>
 
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
+**Notice: In order to get the content, you need to share the page where the content is located (or its parent page) to the intergration you created.**
 
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
+## Development progress
 
-### Adding your plugin to the community plugin list
+At the moment, only videos can be inserted into Obsidian. Inserting text content or images or other content will be considered in a later version.
 
-- Check https://github.com/obsidianmd/obsidian-releases/blob/master/plugin-review.md
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
-
-### How to use
-
-- Clone this repo.
-- `npm i` or `yarn` to install dependencies
-- `npm run dev` to start compilation in watch mode.
-
-### Manually installing the plugin
-
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
-
-### Improve code quality with eslint (optional)
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- To use eslint with this project, make sure to install eslint from terminal:
-  - `npm install -g eslint`
-- To use eslint to analyze this project use this command:
-  - `eslint main.ts`
-  - eslint will then create a report with suggestions for code improvement by file and line number.
-- If your source code is in a folder, such as `src`, you can use eslint with this command to analyze all files in that folder:
-  - `eslint .\src\`
-
-
-### API Documentation
-
-See https://github.com/obsidianmd/obsidian-api
+There is currently a problem with the video links expiring and I am trying to fix this.
