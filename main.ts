@@ -1,4 +1,4 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, TFile } from 'obsidian';
 import Notion from 'notion';
 
 interface NotionSettings {
@@ -9,21 +9,24 @@ const DEFAULT_SETTINGS: NotionSettings = {
   secret: '',
 }
 
-export default class MyPlugin extends Plugin {
+export default class NotionPlugin extends Plugin {
   settings: NotionSettings;
+  // 防止每次打开文件的时候都要请求数据，将文件的路径进行缓存
+  cached: Set<string>;
 
   async onload() {
     await this.loadSettings();
     const notion = new Notion(this.settings.secret);
+    this.cached = new Set<string>();
 
     this.addCommand({
       id: 'Add Video From Notion',
       name: 'Add Video From Notion',
       editorCallback: async (editor: Editor, view: MarkdownView) => {
-        new SampleModal(this.app, async block_id => {
+        new VideoModal(this.app, async block_id => {
           notion.getVideoURL(block_id).then(url => {
             if (url) {
-              editor.replaceRange(`<video controls src="${url}" block_id=${block_id}></video>`, editor.getCursor());
+              editor.replaceRange(`<video controls src="${url}" data-block_id=${block_id}></video>`, editor.getCursor());
               new Notice("Insert video success")
             } else {
               new Notice("It's not a video block")
@@ -38,6 +41,45 @@ export default class MyPlugin extends Plugin {
     })
 
     this.addSettingTab(new SampleSettingTab(this.app, this));
+
+    // 每次打开文件的时候，更新其中的 Notion Video 链接
+    this.registerEvent(this.app.workspace.on('file-open', async (file: TFile) => {   
+      // 只处理 Markdown 文件   
+      if (file.extension === 'md') {        
+        // 文件已经被缓存过，不用再次请求
+        if (this.cached.has(file.path)) {
+          return;
+        }
+        this.cached.add(file.path);
+        const { vault } = this.app;
+        const data = await vault.read(file);
+        const newdata = await this.findVideoAndReplace(data, notion);
+        if (data === newdata) {
+          // new Notice("内容没有变化")
+          return;
+        }
+        await vault.modify(file, newdata);
+        new Notice("Update Video URL Success!");
+      }
+    }))
+  }
+
+  // 提取包含 data-block-id 属性的 video 标签，
+  async findVideoAndReplace(data: string, notion: Notion): Promise<string> {
+    const reg: RegExp = /<video.*data-block-id="(?<id>[^"]*)".*><\/video>/g;
+    let res;
+    while((res = reg.exec(data))) {
+      const block_id = res.groups.id;
+      if (!block_id) {
+        continue;
+      }
+      const url = await notion.getVideoURL(block_id);
+      if (url) {
+        data = data.replace(res[0], `<video controls src="${url}" data-block-id=${block_id}></video>`);
+      }
+    }
+
+    return data;
   }
 
   onunload() {
@@ -53,7 +95,7 @@ export default class MyPlugin extends Plugin {
   }
 }
 
-class SampleModal extends Modal {
+class VideoModal extends Modal {
   block_id: string;
   callback: (block_id: string) => void;
 
@@ -94,9 +136,9 @@ class SampleModal extends Modal {
 }
 
 class SampleSettingTab extends PluginSettingTab {
-  plugin: MyPlugin;
+  plugin: NotionPlugin;
 
-  constructor(app: App, plugin: MyPlugin) {
+  constructor(app: App, plugin: NotionPlugin) {
     super(app, plugin);
     this.plugin = plugin;
   }
