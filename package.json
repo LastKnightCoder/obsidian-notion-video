@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-sample-plugin",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Using Notion API In Obsidian, Connect Your Notion And Obsidian",
 	"main": "main.js",
 	"scripts": {
