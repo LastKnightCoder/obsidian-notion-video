@@ -27,7 +27,7 @@ export default class NotionPlugin extends Plugin {
           try {
             const url = await notion.getVideoURL(block_id)
             if (url) {
-              editor.replaceRange(`<video controls src="${url}" data-block_id=${block_id}></video>`, editor.getCursor());
+              editor.replaceRange(`<video controls src="${url}" data-block-id=${block_id}></video>`, editor.getCursor());
               new Notice("Insert video success")
             } else {
               new Notice("It's not a video block")

@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-notion-video",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "embed your notion video in obsidian",
 	"main": "main.js",
 	"scripts": {

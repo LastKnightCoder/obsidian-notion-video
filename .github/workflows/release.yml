@@ -6,7 +6,7 @@ on:
       - "*"
 
 env:
-  PLUGIN_NAME: obsidian-notion
+  PLUGIN_NAME: obsidian-notion-video
 
 jobs:
   build:

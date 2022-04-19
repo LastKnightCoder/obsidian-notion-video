@@ -1,9 +1,9 @@
 {
 	"id": "obsidian-notion-video",
 	"name": "Notion Video",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"minAppVersion": "0.12.0",
-	"description": "Using Notion API in Obsidian",
+	"description": "embed your notion video in obsidian",
 	"author": "lastknightcoder",
 	"authorUrl": "https://lastknightcoder.github.io/hexo-blog",
 	"isDesktopOnly": true
