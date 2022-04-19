@@ -27,7 +27,7 @@ export default class NotionPlugin extends Plugin {
           try {
             const url = await notion.getVideoURL(block_id)
             if (url) {
-              editor.replaceRange(`<video controls src="${url}" data-block-id=${block_id}></video>`, editor.getCursor());
+              editor.replaceRange(`<video controls src="${url}" data-block-id="${block_id}"></video>`, editor.getCursor());
               new Notice("Insert video success")
             } else {
               new Notice("It's not a video block")
@@ -70,13 +70,14 @@ export default class NotionPlugin extends Plugin {
     const reg: RegExp = /<video.*data-block-id="(?<id>[^"]*)".*><\/video>/g;
     let res;
     while((res = reg.exec(data))) {
+      // console.log(res)
       const block_id = res.groups.id;
       if (!block_id) {
         continue;
       }
       const url = await notion.getVideoURL(block_id);
       if (url) {
-        data = data.replace(res[0], `<video controls src="${url}" data-block-id=${block_id}></video>`);
+        data = data.replace(res[0], `<video controls src="${url}" data-block-id="${block_id}"></video>`);
       }
     }
 
