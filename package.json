@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-sample-plugin",
-	"version": "0.0.3",
-	"description": "Using Notion API In Obsidian, Connect Your Notion And Obsidian",
+	"name": "obsidian-notion-video",
+	"version": "0.0.4",
+	"description": "embed your notion video in obsidian",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",

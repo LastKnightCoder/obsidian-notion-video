@@ -24,17 +24,18 @@ export default class NotionPlugin extends Plugin {
       name: 'Add Video From Notion',
       editorCallback: async (editor: Editor, view: MarkdownView) => {
         new VideoModal(this.app, async block_id => {
-          notion.getVideoURL(block_id).then(url => {
+          try {
+            const url = await notion.getVideoURL(block_id)
             if (url) {
               editor.replaceRange(`<video controls src="${url}" data-block_id=${block_id}></video>`, editor.getCursor());
               new Notice("Insert video success")
             } else {
               new Notice("It's not a video block")
             }
-          }).catch(err => {
+          } catch(err) {
             console.error(err);
             new Notice('Network error happens')
-          })
+          }
           
         }).open();
       }

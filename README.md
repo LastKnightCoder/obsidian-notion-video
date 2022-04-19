@@ -1,6 +1,6 @@
 ## Introduction
 
-This plugin can access content in Notion through the Notion API, You need to provide Notion intergration secrets in the settings and enter the corresponding block_id to get the content of the block.
+This plugin can embed your notion video in obsidian through the Notion API, You need to provide Notion intergration secrets in the settings and enter the corresponding block_id to get the content of the block.
 
 ## Usage
 
@@ -17,9 +17,3 @@ And you will see a modal prompting you to enter block_id. With this block_id you
 <img src="https://cdn.jsdelivr.net/gh/LastKnightCoder/ImgHosting3@master/202204172249412022-04-17-22-49-42.png" style="zoom:50%"/>
 
 **Notice: In order to get the content, you need to share the page where the content is located (or its parent page) to the intergration you created.**
-
-## Development progress
-
-At the moment, only videos can be inserted into Obsidian. Inserting text content or images or other content will be considered in a later version.
-
-There is currently a problem with the video links expiring and I am trying to fix this.
