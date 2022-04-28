@@ -46,7 +46,7 @@ export default class NotionPlugin extends Plugin {
     // 每次打开文件的时候，更新其中的 Notion Video 链接
     this.registerEvent(this.app.workspace.on('file-open', async (file: TFile) => {   
       // 只处理 Markdown 文件   
-      if (file.extension === 'md') {        
+      if (file?.extension === 'md') {        
         // 文件已经被缓存过，不用再次请求
         if (this.cached.has(file.path)) {
           return;
