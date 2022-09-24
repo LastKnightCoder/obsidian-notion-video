@@ -39,7 +39,22 @@ export default class NotionPlugin extends Plugin {
           
         }).open();
       }
-    })
+    });
+
+	this.addCommand({
+		id: 'Update Current File Notion Video',
+		name: 'Update Current File Notion Video',
+		editorCallback: async (editor: Editor, view: MarkdownView) => {
+			const data = view.getViewData();
+			const newdata = await this.findVideoAndReplace(data, notion);
+			if (data === newdata) {
+				// new Notice("内容没有变化")
+				return;
+			}
+			view.setViewData(newdata, false);
+			new Notice("Update Video URL Success!");
+		}
+	})
 
     this.addSettingTab(new SampleSettingTab(this.app, this));
 
